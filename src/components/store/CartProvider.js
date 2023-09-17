@@ -11,9 +11,9 @@ const defaultState = {
   totalAmount: 0,
 };
 
-function reducer(action, state) {
+function reducer(state, action) {
   if (action.type === ACTIONS.add) {
-    const updatedItems = state.items.concat(action.item);
+    const updatedItems = [...state.items, action.item];
     const updatedAmount =
       state.totalAmount + action.item.amount * action.item.price;
     return { items: updatedItems, totalAmount: updatedAmount };
@@ -22,10 +22,10 @@ function reducer(action, state) {
 }
 
 function CartProvider(props) {
-  const [dispatcher, state] = useReducer(reducer, defaultState);
+  const [state, dispatcher] = useReducer(reducer, defaultState);
 
   function addItemHandler(item) {
-    dispatcher({ type: ACTIONS.add, item });
+    dispatcher({ type: ACTIONS.add, item: item });
   }
   function removeItemHandler(id) {
     dispatcher({ type: ACTIONS.remove, id });
